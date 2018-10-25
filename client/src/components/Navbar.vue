@@ -24,9 +24,9 @@
                         </li>
                         <li class="nav-item">
                             <!-- <a href="JavaScript:Void(0);" class="nav-link">
-                                Liked Videos <span class="badge badge-info">13</span>
+                                Liked Videos 
                             </a> -->
-                            <router-link class="nav-link" :to="`/liked`">Liked Videos</router-link>
+                            <router-link class="nav-link" :to="`/liked`" v-if="islogin===true">Liked Videos <span class="badge badge-info">{{likedlength}}</span></router-link>
                         </li>
                     </ul>
                     <ul class="navbar-nav ml-auto">
@@ -40,6 +40,10 @@
                 </div>
             </div>
         </nav>
+
+        <div class="alert alert-danger" v-if="failed === true" role="alert">
+            Login Failed :(
+        </div>
 
         <!-- Modal -->
         <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -72,10 +76,20 @@ export default {
     name : 'Navbar',
     data(){
         return {
-            islogin :false,
+            // islogin :false,
 
             login_email : '',
-            login_password : ''
+            login_password : '',
+            
+            failed : false
+        }
+    },
+    computed : {
+        likedlength(){
+            return this.$store.state.likedvideos.length
+        },
+        islogin(){
+            return this.$store.state.islogin
         }
     },
     methods : {
@@ -93,7 +107,7 @@ export default {
                 data
             })
             .then((response)=>{
-                console.log(response)
+                self.failed = false
 
                 self.login_email = ''
                 self.login_password = ''
@@ -101,9 +115,11 @@ export default {
                 localStorage.setItem('token', response.data.token)
                 localStorage.setItem('currentuser', response.data.userId)
 
-                this.islogin = true
+                this.$store.commit('mutlogin',true)
+                
             })
             .catch((err)=>{
+                self.failed = true
                 console.log(err)
             })
         },
@@ -111,12 +127,12 @@ export default {
             localStorage.removeItem('token')
             localStorage.removeItem('currentuser')
 
-            this.islogin = false
+            this.$store.commit('mutlogin',false)
         },
         checkToken(){
             let token = localStorage.getItem('token')
             if(token){
-                self.islogin = true
+                this.$store.commit('mutlogin',true)
             }
         }
     },

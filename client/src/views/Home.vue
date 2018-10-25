@@ -1,8 +1,6 @@
 <template>
   <div class="home">
     <br>
-    <h3>WELCOME TO VUETUBE !</h3>
-
     <!-- Content -->
     <div class="container-fluid">
       <div class="row">
@@ -11,7 +9,7 @@
         <list-videos></list-videos>
 
         <!-- player and detail   -->
-        <player-and-detail></player-and-detail>
+        <!-- <player-and-detail></player-and-detail> -->
       
       </div>
     </div>
@@ -30,17 +28,7 @@ export default {
     PlayerAndDetail
   },
   methods : {
-    test(){
-      axios({
-        method : 'GET',
-        url :'https://www.googleapis.com/youtube/v3/search?order=date&part=snippet&channelId={channel_id}&maxResults=5&key={app_key}'
-        
-      })
-    }
 
   }
-  
 }
 </script>
-
-AIzaSyAZw1ibK6njKrV26kFOU8V8AB5hHkMccbY

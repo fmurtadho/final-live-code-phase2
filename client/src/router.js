@@ -12,6 +12,11 @@ export default new Router({
       path: '/',
       name: 'home',
       component: Home
+      // children: [{
+      //   path: '/detail/:url',
+      //   name: 'video-detail',
+      //   component: () => import('./views/PlayerAndDetail.vue')
+      // }]
     },
     {
       path: '/about',
